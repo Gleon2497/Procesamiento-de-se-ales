@@ -1,0 +1,67 @@
+%%%Convolución de señales de audio
+% s son los datos de la canción.
+% fs es la frecuencia de muestreo.
+
+clear all; close all; clc;
+
+[s fs] = audioread('Rap_god.wav');
+
+%sound(s,fs); %Reproducir la canción seleccionada.
+
+figure
+subplot(211)
+plot(s(:,1));
+title('Frecuencia señal lado derecho','Fontsize',14);
+xlabel('Muestras(n)');
+ylabel('Amplitud');
+
+subplot(212)
+plot(s(:,2));
+title('Frecuencia señal lado izquierdo','Fontsize',14);
+
+
+tam_audio = length(s);
+tiempo_segundos = tam_audio/fs;
+
+escala_segundos = 0:1/fs:tiempo_segundos-(1/fs);
+
+figure
+subplot(211)
+plot(escala_segundos,s(:,1));
+title('Frecuencia señal lado derecho','Fontsize',14);
+xlabel('Muestras(n)');
+ylabel('Amplitud');
+
+subplot(212)
+plot(escala_segundos,s(:,2));
+title('Frecuencia señal lado izquierdo','Fontsize',14);
+
+%sound(s./2,fs) %Reducir la amplitud = reducir el volumen
+%sound(s.*2,fs) %Aumentar la amplitud = reducir el volumen
+%sound(s,fs/2) %Reducir la velocidad = reducir la velocidad de la cancion
+%sound(s,fs*1.5) %Aumentar la velocidad = Aumentar la velocidad de la cancion
+
+s_cortada = s(1:441000,1);
+%sound(s_cortada,fs); 
+
+s_inversa = (s_cortada(end:-1:1));
+%sound(s_inversa,fs)
+
+[s1 fs1] = audioread('ir_1.wav');
+[s2 fs2] = audioread('ir_2.wav');
+[s3 fs3] = audioread('ir_3.wav');
+[s4 fs4] = audioread('ir_4.wav');
+[s5 fs5] = audioread('ir_5.wav');
+[s6 fs6] = audioread('golpe.wav');
+[s7 fs7] = audioread('golpeeco.wav');
+[s8 fs8] = audioread('rob.wav');
+
+[s9 fs9] = audioread('ecos.wav');
+
+%sound(s9*2,fs9*2); %Pruebas sonido efectos
+
+%Convolucion entre cancion y efectos
+Convolucion1 = conv(s9(:,1),s6(:,1));
+sound(Convolucion1,fs)
+
+
